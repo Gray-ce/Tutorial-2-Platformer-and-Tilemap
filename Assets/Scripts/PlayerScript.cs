@@ -19,6 +19,11 @@ public class PlayerScript : MonoBehaviour
     private int scoreValue = 0;
     private int livesValue = 3;
     private bool facingRight = true;
+    private bool isOnGround;
+    public Transform groundcheck;
+    public float checkRadius;
+    public LayerMask allGround;
+
     Animator anim;
     //private bool gameOver;
     
@@ -53,7 +58,7 @@ public class PlayerScript : MonoBehaviour
         //float vertMovement = Input.GetAxis("Vertical"); nullified this code because the player kept moving upwards if the W key was held.
 
         rd2d.AddForce(new Vector2(hozMovement * speed, 0)); //, vertMovement * speed)); setting the vertical value to 0 constantly fixed this problem, as the player would now only be able to jump if touching the ground
-
+        isOnGround = Physics2D.OverlapCircle(groundcheck.position, checkRadius, allGround);
           if (facingRight == false && hozMovement > 0)
         {
             Flip();
@@ -82,6 +87,14 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
           anim.SetInteger("State", 0);
+        }
+        if (Input.GetKeyDown(KeyCode.W) && isOnGround)
+        {
+            anim.SetInteger("State", 2);
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            anim.SetInteger("State", 0);
         }
     }
     
@@ -125,12 +138,14 @@ public class PlayerScript : MonoBehaviour
     }
      private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.tag == "Ground")
+        if (collision.collider.tag == "Ground" && isOnGround)
         {
             if (Input.GetKey(KeyCode.W))
             {
-                rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
+            rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
+            
             }
         }
+        
     }
 }
