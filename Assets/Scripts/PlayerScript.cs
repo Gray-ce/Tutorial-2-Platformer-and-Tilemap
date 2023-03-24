@@ -20,15 +20,13 @@ public class PlayerScript : MonoBehaviour
     private int livesValue = 3;
     private bool facingRight = true;
     private bool isOnGround;
+    private int gameOver = 0;
     public Transform groundcheck;
     public float checkRadius;
     public LayerMask allGround;
-
-    Animator anim;
-    //private bool gameOver;
     
 
-    // Start is called before the first frame update
+    Animator anim;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -41,7 +39,6 @@ public class PlayerScript : MonoBehaviour
         musicSource.clip = musicClipOne;
         musicSource.Play();
         musicSource.loop = true;
-        //gameOver = false;
     }
     void Flip()
    {
@@ -67,6 +64,10 @@ public class PlayerScript : MonoBehaviour
         {
              Flip();
         }
+        if (hozMovement <= 0 && isOnGround)
+            {
+                anim.SetInteger("State", 0);
+            }
     }
 
     void Update()
@@ -87,15 +88,7 @@ public class PlayerScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
         {
           anim.SetInteger("State", 0);
-        }
-        if (Input.GetKeyDown(KeyCode.W) && isOnGround)
-        {
-            anim.SetInteger("State", 2);
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            anim.SetInteger("State", 0);
-        }
+        }    
     }
     
     
@@ -112,15 +105,23 @@ public class PlayerScript : MonoBehaviour
             lives.text = "Lives:" + livesValue.ToString();
             transform.position  = new Vector2(38.8f , -0.28f);
             }
-        }
-        if (scoreValue == 12) // gameOver = false &&
-        {
-            //gameOver = true;
+            if (scoreValue == 12 && gameOver == 0)
+            {
             winTextObject.SetActive(true);
             musicSource.clip = musicClipWin;
             musicSource.Play();
             musicSource.loop = false;
+            gameOver += 1;
+            }
+        }
 
+        if (scoreValue == 12 && gameOver == 0)
+        {
+            winTextObject.SetActive(true);
+            musicSource.clip = musicClipWin;
+            musicSource.Play();
+            musicSource.loop = false;
+            gameOver += 1;
         }
 
         if (collision.collider.tag == "Enemy")
@@ -143,9 +144,8 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
             {
             rd2d.AddForce(new Vector2(0, 3), ForceMode2D.Impulse);
-            
+            anim.SetInteger("State", 2);
             }
         }
-        
     }
 }

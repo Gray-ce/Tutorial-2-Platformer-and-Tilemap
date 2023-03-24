@@ -5393,7 +5393,7 @@ MonoBehaviour:
   musicClipOne: {fileID: 8300000, guid: cdeea9006363c2747a4a803d9b4b33b8, type: 3}
   musicSource: {fileID: 573394020}
   groundcheck: {fileID: 2031293379}
-  checkRadius: 1
+  checkRadius: 2
   allGround:
     serializedVersion: 2
     m_Bits: 256
@@ -8188,8 +8188,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031293378}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.39978176, y: -1.99, z: 0.11340146}
-  m_LocalScale: {x: 2.3516574, y: 2.315478, z: 1.881326}
+  m_LocalPosition: {x: -0.18, y: -2.25, z: 0.11340146}
+  m_LocalScale: {x: 3.4117844, y: 3.6532338, z: 2.7294276}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 573394019}
